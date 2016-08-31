@@ -1,5 +1,11 @@
-rem @echo off
+@echo off
 setlocal
+
+net file 1 > nul 2>&1
+if %errorlevel% neq 0 (
+  echo ERROR: Insufficient priviliges. Are you not running from an administrator prompt?
+  exit /b 1
+)
 
 :: Allow for user to set the installation root directory somewhere.
 :: This is where we find all the binary distributions.
@@ -34,6 +40,12 @@ if not exist c:\bin\make.cmd (
 echo # Killing diagnostic tracking
 sc delete DiagTrack > nul
 sc delete dmwappushservice > nul
+
+
+:: Kill superfetch. Since it's not needed for SSD drives anyways
+echo # Killing superfetch
+sc config "SysMain" start= disabled > nul
+net stop SysMain > nul
 
 :: Kill windows search (this also disables the search in the start menu)
 :: echo # Killing windows search
