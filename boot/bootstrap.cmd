@@ -15,7 +15,7 @@ if exist \\diskstation2\software\python (
 if "%1_" neq "_" set INSTALL_ROOT=%1
 echo # Install root: %INSTALL_ROOT%
 
-:: Install chocoloatery
+:: Install chocolatery
 if exist C:\ProgramData\chocolatey\bin\choco.exe goto :SKIP_CHOCO
 echo Installing chocolatery
 @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" > nul
@@ -155,5 +155,10 @@ if exist "c:\program files\totalcmd\totalcmd.exe" (
     )
   )
 )
+
+:: Slimming down windows somewhat
+echo #Removing software distribution
+rmdir /s /q %WinDir%\SoftwareDistribution > nul 2>&1
+
 
 endlocal
